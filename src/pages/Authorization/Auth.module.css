@@ -1,0 +1,12 @@
+.nav_buttons{
+    width: 60%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5%;
+}
+
+.form{
+    width: 100%;
+    height: calc(95% - 50px);
+}

@@ -1,0 +1,1 @@
+export type ClickedType = (id: number) => void

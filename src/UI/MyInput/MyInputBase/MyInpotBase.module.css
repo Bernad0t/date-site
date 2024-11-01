@@ -1,0 +1,13 @@
+.base{
+    height: 100%;
+    width: 100%;
+    border: 1px solid #000;
+    border-radius: 20px;
+    background-color: #FFF;
+    padding-left: 5%;
+}
+
+.base:focus{
+    outline: indianred;
+    border: 1px solid indianred;
+}

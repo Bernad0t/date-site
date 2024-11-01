@@ -1,0 +1,13 @@
+.active, .disable{
+    height: 100%;
+    width: 100%;
+    background-color: #AFAFAF;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.active{
+    background-color: indianred;
+    color: #FFF;
+}

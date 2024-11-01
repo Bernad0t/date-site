@@ -1,0 +1,15 @@
+#root{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10vh;
+  background-color: #AFAFAF;
+} */
+
+#root div{
+  min-width: 400px;
+  width: 40%;
+  min-height: 80%;
+}
