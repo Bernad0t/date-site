@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { UserData } from "../../sqhemas/props";
+import { UserData } from "../../sqhemas/props/props";
 import GetUserData from "../../api/Queries/User/ProcessUserData";
 
 export default function useGetUserData(id: number, setLoading: React.Dispatch<React.SetStateAction<boolean>>, 

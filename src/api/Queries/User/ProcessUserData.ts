@@ -1,4 +1,4 @@
-import { UserData } from "../../../sqhemas/props";
+import { UserData } from "../../../sqhemas/props/props";
 import { SERVER } from "../../ApiSource";
 import { GetBaseAuth } from "../base";
 

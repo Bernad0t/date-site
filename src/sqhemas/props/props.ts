@@ -1,4 +1,4 @@
-import { Gender } from "./enums"
+import { Gender } from "../enums"
 
 export interface CheckCorrectProps{
     node: JSX.Element
@@ -11,14 +11,7 @@ export interface dataForm{
     password: string 
 }
 
-export interface UserCreate{
-    login: string
-    password: string
-    mail: string
-}
-
-export interface UserData{
-    id: number
+interface CommonUser{
     mail: string | undefined
     gender: Gender| undefined
     name: string | undefined
@@ -26,9 +19,13 @@ export interface UserData{
     description: string | undefined
 }
 
-export interface UserPropsClient{
-    user: UserData
-    setUser:  React.Dispatch<React.SetStateAction<UserData>>
+export interface UserCreate extends CommonUser{
+    login: string
+    password: string
+}
+
+export interface UserData extends CommonUser{
+    id: number
 }
 
 export interface TokensDTO{

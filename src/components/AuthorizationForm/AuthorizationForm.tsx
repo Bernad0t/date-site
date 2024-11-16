@@ -5,17 +5,18 @@ import css from "./form.module.css"
 
 import ButtonForm from "../../UI/Buttons/ButtonForm/ButtonForm"
 import useCheckCorrectForm from "../../hooks/useCheckCorrectForm/useCheckCorrectForm"
-import {  dataForm } from "../../sqhemas/props"
+import {  UserCreate } from "../../sqhemas/props/props"
 import CheckCorrectForm from "../../utils/CheckCorrectForm"
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore/useStore"
+import { changeField } from "../../store/features/newUserSlice"
+import { selectCreateUser } from "../../store/store"
 
 interface props{
-    data: dataForm
-    setData: React.Dispatch<React.SetStateAction<dataForm>>
     submit: () => void
     nameSubmit: string
 }
 
-function OneField(value: string, key: string, callBack: (key: string, newValue: string) => void){
+function OneField(value: string | number | undefined, key: string, callBack: (key: string, newValue: string) => void){
     return(
         <div style={{width: "100%", height: "30px", marginBottom: "10px"}}>
             <MyInputBase type={key === "password" ? "password" : ""} value={value}
@@ -24,12 +25,13 @@ function OneField(value: string, key: string, callBack: (key: string, newValue: 
     )
 }
 
-export default function AuthForm({data, setData, submit, nameSubmit}: props){
-    const keys: string[] = Object.keys(data)
-
-    const correctForm = useCheckCorrectForm({data: data, CheckDataCorrect: CheckCorrectForm})
+export default function AuthForm({submit, nameSubmit}: props){
+    const data: UserCreate = useAppSelector(selectCreateUser)
+    const keys: string[] = Object.keys(data).slice(0, 3) // [mail log pas]
+    const dispatch = useAppDispatch()
+    const correctForm = useCheckCorrectForm({data: data, keys: keys, CheckDataCorrect: CheckCorrectForm})
     function Change(key: string, value: string){
-        setData({...data, [key]: value})
+        dispatch(changeField({...data, [key]: value}))
     }
     return(
         <div>

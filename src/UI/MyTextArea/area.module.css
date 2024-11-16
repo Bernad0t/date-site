@@ -1,12 +1,13 @@
-textarea{
+.textarea{
     width: 100%;
-    min-height: 60px;
+    min-height: 80px;
     background-color: #FFF;
     padding: 1% 5% 1% 5%;
     resize: none;
+    border-radius: 5px;
 }
 
-textarea:focus{
+.textarea:focus{
     outline: indianred;
     border: 1px solid indianred;
 }

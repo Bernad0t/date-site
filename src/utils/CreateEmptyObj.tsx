@@ -1,4 +1,4 @@
-import { CheckCorrectProps, dataForm, UserData } from "../sqhemas/props";
+import { dataForm, UserCreate, UserData } from "../sqhemas/props/props";
 
 export function CreateEmptyDataForm(): dataForm{
     return(
@@ -14,6 +14,20 @@ export function CreateEmptyUserData(id: number): UserData{
     return(
         {
             id: id,
+            mail: undefined,
+            gender: undefined,
+            name: undefined,
+            age: undefined,
+            description: undefined
+        }
+    )
+}
+
+export function CreateEmptyNewUserData(): UserCreate{
+    return(
+        {
+            login: "",
+            password: "",
             mail: undefined,
             gender: undefined,
             name: undefined,

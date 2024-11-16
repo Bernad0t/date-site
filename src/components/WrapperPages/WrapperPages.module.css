@@ -1,25 +1,24 @@
 .wrap{
     min-width: 400px;
     width: 60%;
+    height: 80vh;
     min-height: 80vh;
     max-height: 80vh;
     background-color: #FFF;
-    align-items: center;
-    display: flex;
-    justify-content: center;
     padding: 5%;
     border-radius: 20px;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 .wrap::-webkit-scrollbar {
     width: 0px;               /* ширина scrollbar */
   }
   .wrap::-webkit-scrollbar-track {
-    background: #282727;        /* цвет дорожки */
+    background: #FFF;        /* цвет дорожки */
   }
   .wrap::-webkit-scrollbar-thumb {
-    background-color: #282727;    /* цвет плашки */
+    background-color: #FFF;    /* цвет плашки */
     border-radius: 20px;       /* закругления плашки */
-    border: 0px solid #282727;  /* padding вокруг плашки */
+    border: 0px solid #FFF;  /* padding вокруг плашки */
   }

@@ -4,7 +4,8 @@ import css from "./useCorrect.module.css"
 
 interface props{
     data: any
-    CheckDataCorrect: (data: any) => string
+    keys: string[]
+    CheckDataCorrect: (data: any, keys: string[]) => string
 }
 
 function GetMessage(message: string){
@@ -13,11 +14,11 @@ function GetMessage(message: string){
     )
 }
 
-export default function useCheckCorrectForm({data, CheckDataCorrect}: props){
+export default function useCheckCorrectForm({data, keys, CheckDataCorrect}: props){
     const [message, setMessage] = useState("") 
 
     useEffect(() => {
-        setMessage(CheckDataCorrect(data))
+        setMessage(CheckDataCorrect(data, keys))
     }, [data])
     return(
         {node: GetMessage(message), correct: message.length === 0}

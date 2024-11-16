@@ -1,4 +1,4 @@
-import { TokensDTO, UserCreate } from "../../../sqhemas/props";
+import { TokensDTO, UserCreate } from "../../../sqhemas/props/props";
 import { PostBase } from "../base";
 
 const BaseAuth = "/auth"

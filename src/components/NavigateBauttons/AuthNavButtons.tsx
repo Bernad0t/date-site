@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import ButtonForm from "../../UI/Buttons/ButtonForm/ButtonForm"
 import { useNavigate } from "react-router-dom"
-import { DoAuthorization, PathPagesAuth } from "../../sqhemas/enums"
+import { DoAuthorization } from "../../sqhemas/enums"
 import { GetPathAuthorization } from "../../utils/GetPath"
 
 interface StructButton{

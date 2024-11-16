@@ -1,0 +1,21 @@
+.contain_select{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    min-width: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.button_selected, .button_not_selected{
+    width: 15px;
+    height: 15px;
+    border: 1px solid #FFF;
+    border-radius: 50%;
+    background-color: indianred;
+    border: 1px solid #000;
+}
+
+.button_not_selected{
+    background-color: #afafaf
+}

@@ -4,6 +4,6 @@ export function GetPathAuthorization(param: DoAuthorization){
     return PathPagesAuth.auth + `/${param}`
 }
 
-export function GetPathRegCharacteristics(user_id: number){
-     return PathPagesAuth.reg + `/${user_id}`
+export function GetPathRegCharacteristics(){
+     return PathPagesAuth.reg
 }
