@@ -1,4 +1,5 @@
 import { Gender } from "../enums"
+import no_image from "../../assets/no_image.jpg"
 
 export interface CheckCorrectProps{
     node: JSX.Element
@@ -17,6 +18,7 @@ interface CommonUser{
     name: string | undefined
     age: number | undefined
     description: string | undefined
+    preview: string | undefined
 }
 
 export interface UserCreate extends CommonUser{

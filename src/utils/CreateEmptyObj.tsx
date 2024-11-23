@@ -18,7 +18,8 @@ export function CreateEmptyUserData(id: number): UserData{
             gender: undefined,
             name: undefined,
             age: undefined,
-            description: undefined
+            description: undefined,
+            preview: undefined
         }
     )
 }
@@ -32,7 +33,8 @@ export function CreateEmptyNewUserData(): UserCreate{
             gender: undefined,
             name: undefined,
             age: undefined,
-            description: undefined
+            description: undefined,
+            preview: undefined
         }
     )
 }

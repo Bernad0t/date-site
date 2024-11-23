@@ -1,8 +1,8 @@
 import { InputHTMLAttributes } from "react";
-import image from "../../../assets/back_button.png"
+import image from "../../../assets/main.png"
 import BaseImgButton from "../BaseImgButton/BaseImgButton";
 
-export default function BackButton({...props}: InputHTMLAttributes<HTMLImageElement>){
+export default function ToMainMenuBatton({...props}: InputHTMLAttributes<HTMLImageElement>){
     return(
         <BaseImgButton src={image} {...props}/>
     )

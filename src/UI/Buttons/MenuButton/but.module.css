@@ -1,0 +1,14 @@
+.active, .not_active{
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+    border: none;
+    color: #AFAFAF;
+    border-bottom: 2px solid #AFAFAF;
+}
+
+.active, .not_active:hover{
+    border-bottom: 2px solid indianred;
+    color: #000;
+}

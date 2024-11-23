@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ButtonForm from "../../UI/Buttons/ButtonForm/ButtonForm";
-import FillUserDataForm from "../../components/FillUserDataForm/FillUserDataForm";
+import FillUserDataFormReg from "../../components/FillUserDataForm/FillUserDataForm";
 import { useAppSelector } from "../../hooks/useStore/useStore";
 import { selectCreateUser } from "../../store/store";
 import { useNavigate } from "react-router-dom";
@@ -33,6 +33,8 @@ export default function FillUserDataReg(){ // добавить 3 точки, о�
         .catch(error => {
             if (error.status === 400)
                 setErrorMessage("Такой пользователь существует")
+            else if (error.status === 422)
+                setErrorMessage("Некорректные данные")
             else
                 setErrorMessage("Что-то пошло не так")
         })
@@ -44,10 +46,10 @@ export default function FillUserDataReg(){ // добавить 3 точки, о�
                 <LoadingComponent loading={loading}>
                     <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
                         <div style={{width: "60%"}}>
-                            <FillUserDataForm user={user}/>
+                            <FillUserDataFormReg user={user}/>
                             <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
                                 <div style={{width: "80%", height: "30px"}}>
-                                    <ButtonForm active={true} onClick={() => submit()}>Зарегистрироваться</ButtonForm> 
+                                    <ButtonForm active={correctForm.correct} disabled={!correctForm.correct} onClick={() => submit()}>Зарегистрироваться</ButtonForm> 
                                     {correctForm.node}
                                     <ErrorMessage message={errorMessage}/>
                                 </div>

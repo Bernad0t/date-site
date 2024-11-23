@@ -2,11 +2,11 @@ import { CharacteristicType } from "../enums"
 
 export interface WayAnswerDTO{
     id: number
-    id_characteristic: number
+    characteristic_id: number
     answer: string
 }
 
-export interface  CharacteristicsListDTO{
+export interface  CharacteristicsDTO{
     id: number
     name: string
     type_characteristic: CharacteristicType

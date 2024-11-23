@@ -5,13 +5,13 @@
     padding: 10px 0px 10px 0px;
 }
 
-.one_char:hover{
-    cursor: pointer;
-}
-
 .contain_answers{
     min-width: 180px;
     max-width: 180px;
+}
+
+.one_but:hover{
+    cursor: pointer;
 }
 
 .one_but{

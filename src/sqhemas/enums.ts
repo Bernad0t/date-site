@@ -4,9 +4,22 @@ export enum AuthPlasceHolders{
     "password" = "Пароль"
 }
 
+export enum UserDataPlaceholders{
+    "age" = "Возраст",
+    "name" = "Имя",
+    "description" = "Описание"
+}
+
 export enum PathPagesAuth{
     "auth" = "/auth",
     "reg" = "/reg"
+}
+
+export enum PathMains{
+    "ankets" = "/ankets",
+    "likes" = "/likes",
+    "chats" = "/chats",
+    "profile" = "/profile"
 }
 
 export enum profileCharacteristics{
@@ -29,4 +42,11 @@ export enum CharacteristicType{
     yourself = "Моя личность",
     attract = "Отеошение к другим",
     worldview = "Отношение к миру"
+}
+
+export enum IdPages{
+    ankets = 0,
+    likes = 1,
+    chats = 2,
+    profile = 3,
 }
