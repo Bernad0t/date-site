@@ -6,7 +6,7 @@ from backend.src.base_data.models.token import RefreshTokenOrm
 from backend.src.base_data.models.user import UserOrm
 from backend.src.base_data.queries.user import find_user_by_login
 from backend.src.services.authorization import authorization_service
-from backend.src.sqhemas.authorization import UserCreate
+from backend.src.sqhemas.authorization import UserCreate, UserLogin
 from backend.src.sqhemas.token import TokensDTO
 from backend.src.utils.process_password import get_hashed_password, create_refresh_token, create_access_token, \
     check_password
@@ -32,7 +32,7 @@ async def Register(data: UserCreate):
                                          "refresh_token": get_refresh_token, "user_id": user_id})
 
 @authorization_service
-async def Login(data: UserCreate):
+async def Login(data: UserLogin):
     async with async_session_factory() as session:
         result = await find_user_by_login(data.login)
         if not result:

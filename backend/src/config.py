@@ -1,3 +1,5 @@
+import asyncio
+from asyncio import WindowsSelectorEventLoopPolicy
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -6,6 +8,7 @@ from dotenv import load_dotenv
 
 import smtplib, ssl
 
+asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 load_dotenv()
 
 #DATABASE
@@ -32,8 +35,8 @@ class Settings(BaseSettings):
 settings = Settings()
 SECRET_KEY_TOKEN = settings.SECRET_KEY_TOKEN
 ALGORITHM = settings.ALGORITHM
-EXPIRE_REFRESH_TOKEN = 2 # min
-EXPIRE_ACCESS_TOKEN = 1  # min
+EXPIRE_REFRESH_TOKEN = 60 # min
+EXPIRE_ACCESS_TOKEN = 60  # min
 
 #MAIL
 

@@ -1,7 +1,7 @@
 from starlette.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-from backend.src.server import authorization, user, profile
+from backend.src.server import authorization, user, profile, partner
 
 app = FastAPI(
 # title="My App",
@@ -24,6 +24,7 @@ app.add_middleware(
 app.include_router(authorization.router)
 app.include_router(user.router)
 app.include_router(profile.router)
+app.include_router(partner.router)
 
 @app.on_event("startup")
 async def startup():

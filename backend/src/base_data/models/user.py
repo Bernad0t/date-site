@@ -20,6 +20,7 @@ class UserOrm(Base):
     age: Mapped[int | None]
     description: Mapped[str | None]
     preview: Mapped[str | None]
+    #TODO city
 
     characteristics: Mapped[list["CharacteristicsOrm"]] = relationship(
         back_populates="users",

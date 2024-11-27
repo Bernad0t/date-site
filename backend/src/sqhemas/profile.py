@@ -4,7 +4,7 @@ from backend.src.base_data.enums.characteristic import CharacteristicType
 
 class AnswerDTO(BaseModel):
     id: int
-    id_characteristic: int
+    characteristic_id: int
     answer: str
 
 class CharacteristicsListDTO(BaseModel):

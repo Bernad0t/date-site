@@ -12,3 +12,8 @@ class UserCreate(BaseModel):
     name: str | None
     age: int | None
     description: str | None
+
+class UserLogin(BaseModel):
+    login: str
+    password: str
+    mail: EmailStr
