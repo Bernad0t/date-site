@@ -1,0 +1,51 @@
+.characteristics{
+    width: 100%;
+    border-top: 1px solid #AFAFAF;
+    border-bottom: 1px solid #AFAFAF;
+    padding: 10px 0px 10px 0px;
+    margin-top: 10px;
+}
+
+.one_type{
+    width: 100%;
+    padding: 5px 0px 5px 0px;
+}
+
+.type_name{
+    min-width: 100px;
+    height: 30px;
+    background-color: indianred;
+    color: #FFF;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.one_char{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px;
+}
+
+.char{
+    border: 1px solid #AFAFAF;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    max-width: 100%;
+}
+
+.answers{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.one_ans{
+    border: 1px solid #AFAFAF;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}

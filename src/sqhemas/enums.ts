@@ -16,13 +16,13 @@ export enum PathPagesAuth{
 }
 
 export enum PathMains{
-    "ankets" = "/ankets",
+    "ankets" = "/",
     "likes" = "/likes",
     "chats" = "/chats",
     "profile" = "/profile"
 }
 
-export enum profileCharacteristics{
+export enum PathProfileCharacteristics{
     "reg" = "/reg/profile",
     "user" = "/user/profile"
 }

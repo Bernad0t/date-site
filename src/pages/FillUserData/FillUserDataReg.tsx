@@ -5,7 +5,7 @@ import { useAppSelector } from "../../hooks/useStore/useStore";
 import { selectCreateUser } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { GetPathAuthorization } from "../../utils/GetPath";
-import { DoAuthorization, profileCharacteristics } from "../../sqhemas/enums";
+import { DoAuthorization, PathProfileCharacteristics } from "../../sqhemas/enums";
 import WrapperPages from "../../components/WrapperPages/WrapperPages";
 import BackButton from "../../UI/Buttons/BackButton/BackButton";
 import useCheckCorrectForm from "../../hooks/useCheckCorrectForm/useCheckCorrectForm";
@@ -29,7 +29,7 @@ export default function FillUserDataReg(){ // добавить 3 точки, о�
 
     function submit(){
         RegQuery(user, setLoading)
-        .then(() => navigate(profileCharacteristics.reg))
+        .then(() => navigate(PathProfileCharacteristics.reg))
         .catch(error => {
             if (error.status === 400)
                 setErrorMessage("Такой пользователь существует")

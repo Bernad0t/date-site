@@ -54,7 +54,6 @@ export function FillUserData({set_fields, user}: props_fill_form){
 }
 
 export default function FillUserDataFormReg({user} : {user: UserCreate}){
-    // const placeholder: string = "Расскажите о своих увлечениях, что для вас важно, что хотели бы видеть в собеседнике"
     const dispatch = useAppDispatch()
 
     const set_fields: props_field[] = [
@@ -66,29 +65,5 @@ export default function FillUserDataFormReg({user} : {user: UserCreate}){
 
     return(
         <FillUserData user={user} set_fields={set_fields}/>
-        // <div style={{width: "100%"}}>
-        //     {set_fields.map(set => <OneField name={set.name} value={set.value} onchange={set.onchange}/>)}
-        //     <div className={css.one_characteristic}>
-        //         <div className={css.name}>
-        //             Выберете ваш пол
-        //         </div>
-        //         <div className={css.field}>
-        //             <MySelect onChange={e => dispatch(changeField({...user, gender: Gender[e.target.value as keyof typeof Gender]}))}>
-        //                 <option disabled selected>Пол</option>
-        //                 <option value={"male"}>{Gender.male.valueOf()}</option>
-        //                 <option value={"female"}>{Gender.female.valueOf()}</option>
-        //             </MySelect>
-        //         </div>
-        //     </div>
-        //     <div className={css.one_characteristic}>
-        //         <div className={css.name}>
-        //             Придумайте описание для вашей анкеты
-        //         </div>
-        //         <div className={css.field} style={{height: "auto"}}>
-        //             <MyTextArea value={user.description} onChange={e => dispatch(changeField({...user, description: e.target.value}))}
-        //                 placeholder={placeholder}/>
-        //         </div>
-        //     </div>
-        // </div>
     )
 }

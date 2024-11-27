@@ -1,23 +1,30 @@
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import PanelMain from "../../components/panel_main/panel_main";
 import WrapperPages from "../../components/WrapperPages/WrapperPages";
-import { Gender, IdPages, UserDataPlaceholders } from "../../sqhemas/enums";
+import { Gender, IdPages, PathProfileCharacteristics, UserDataPlaceholders } from "../../sqhemas/enums";
 import { UserData } from "../../sqhemas/props/props";
 import LoadingComponent from "../../components/LoadingComponent";
 import WrapperImage from "../../components/WrapperImage/WrapperImage";
-import GetUserData from "../../api/Queries/User/ProcessUserData";
+import GetUserData, { SetUserData } from "../../api/Queries/User/ProcessUserData";
 import RefactorButton from "../../UI/Buttons/Refactor/Refactor";
 import AddButton from "../../UI/Buttons/AddButton/AddButton";
 import BackButton from "../../UI/Buttons/BackButton/BackButton";
-import MyInputBase from "../../UI/MyInput/MyInputBase/MyInputBase";
-import FillUserDataFormReg, { FillUserData } from "../../components/FillUserDataForm/FillUserDataForm";
+import { FillUserData } from "../../components/FillUserDataForm/FillUserDataForm";
 import { props_field } from "../../sqhemas/props/fill_data";
+import CharacteristicsButton from "../../UI/Buttons/CharacteristicsButton/CharacteristicsButton";
+import { useNavigate } from "react-router-dom";
+import ButtonRed from "../../UI/Buttons/ButtonRed/ButtonRed";
+import ErrorMessage from "../../components/ErrorMessage";
+import { CharacteristicsDTO } from "../../sqhemas/props/characteristics";
 
 export default function Profile(){
     const [user, setUser] = useState<UserData | undefined>()
     const [userCopy, setUserCopy] = useState<UserData | undefined>()
     const [refactorState, setRefactorState] = useState(false)
     const [file, setFile] = useState<File | null>(null)
+    const [loading, setLoading] = useState(false)
+    const [errorMes, setErrorMes] = useState("")
+    const navigate = useNavigate()
 
     useEffect(() => {
         GetUserData(null)
@@ -30,32 +37,61 @@ export default function Profile(){
         setRefactorState(!refactorState)
     }
 
+    function handleApplyChange(){
+        userCopy && SetUserData({...userCopy, preview: user?.preview}, file, setLoading)
+        .then(() => {setRefactorState(!refactorState); setErrorMes(""); setUser(userCopy)})
+        .catch(() => setErrorMes("что-то пошло не так"))
+    }
+
     return(
         <WrapperPages>
             <>
                 <PanelMain id_page={IdPages.profile}/>
                 <Wrapper style={{display: refactorState ? "none" : "flex"}}>
-                    <PhotoUser user={user}/>
-                    <Info user={user}/>
+                    <div style={{width: "50%"}}>
+                        <PhotoUser user={user}/>
+                    </div>
+                    <div style={{width: "40%"}}>
+                        <Info user={user}/>
+                    </div>
                     <div style={{width: "5%"}}>
-                        <RefactorButton onClick={() => setRefactorState(!refactorState)}/>
+                        <div style={{height: "40px"}}>
+                            <RefactorButton onClick={() => setRefactorState(!refactorState)}/>
+                        </div>
+                        <div style={{height: "40px"}}>
+                            <CharacteristicsButton onClick={() => navigate(PathProfileCharacteristics.user)}/>
+                        </div>
                     </div>
                 </Wrapper>
                 <Wrapper style={{display: !refactorState ? "none" : "flex"}}>
-                    <ChangePhotoUser user={userCopy} setUser={setUserCopy} file={file} setFile={setFile}/>
-                    <ChangeInfo user={userCopy} setUser={setUserCopy}/>
-                    <div style={{width: "5%"}}>
-                        <BackButton onClick={handleBack}/>
-                    </div>
+                    <LoadingComponent loading={loading}>
+                        <>
+                        <ChangePhotoUser user={userCopy} setUser={setUserCopy} file={file} setFile={setFile}/>
+                        <PlaceInfo>
+                            <>
+                            <ChangeInfo user={userCopy} setUser={setUserCopy}/>
+                            <div style={{width: "100%", display: "flex", justifyContent: "center", padding: "10px"}}>
+                                <div style={{width: "100px", height: "30px"}}>
+                                    <ButtonRed onClick={handleApplyChange}>Сохранить</ButtonRed>
+                                </div>
+                            </div>
+                            <ErrorMessage message={errorMes}/>
+                            </>
+                        </PlaceInfo>
+                        <div style={{width: "5%"}}>
+                            <BackButton onClick={handleBack}/>
+                        </div>
+                        </>
+                    </LoadingComponent>
                 </Wrapper>
             </>
         </WrapperPages>
     )
 }
 
-function Wrapper({children, ...props}: InputHTMLAttributes<HTMLDivElement>){
+export function Wrapper({children, ...props}: InputHTMLAttributes<HTMLDivElement>){
     return(
-        <div style={{ marginTop: "10px", display: props.style?.display, justifyContent: "space-between", width: "100%", height: "100%"}}>
+        <div style={{ marginTop: "10px", display: props.style?.display, justifyContent: "space-between", width: "100%"}}>
             {children}
         </div>
     )
@@ -63,15 +99,14 @@ function Wrapper({children, ...props}: InputHTMLAttributes<HTMLDivElement>){
 
 function PlacePhoto({children}: {children: JSX.Element}){
     return(
-        <div style={{width: "50%", height: "400px", position: "relative"}}>
+        <div style={{width: "100%", height: "400px", position: "relative"}}>
             {children}
         </div>
     )
 }
 
 
-function PhotoUser({user}: {user: UserData | undefined}){
-    console.log(user?.preview, "prew")
+export function PhotoUser({user}: {user: UserData | undefined}){
     return(
         <PlacePhoto>
             <LoadingComponent loading={user === undefined}>
@@ -83,31 +118,30 @@ function PhotoUser({user}: {user: UserData | undefined}){
 
 function PlaceInfo({children}: {children: JSX.Element}){
     return(
-        <div style={{width: "40%", height: "90%", overflow: "auto", overflowX: "hidden"}}>
+        <div style={{width: "100%", maxHeight: "90%", overflow: "auto", overflowX: "hidden"}}>
             {children}
         </div>
     )
 }
 
-function Info({user}: {user: UserData | undefined}){
+export function Info({user}: {user: UserData | undefined}){
     const fields = ["name", "age", "description"]
     return(
         <PlaceInfo>
             <>
                 {user && fields.map(field => 
-                    <OneField field={field}>
+                    <OneFieldProfile field={field}>
                         <div>
-                            {user && user[field as keyof typeof user]}
+                            {user && {...user, characteristics: ""}[field as keyof typeof user]}
                         </div>
-                    </OneField>
+                    </OneFieldProfile>
                 )}
             </>
         </PlaceInfo>
     )
 }
 
-function OneField({field, children}: {field: string, children: JSX.Element}){
-    console.log(field, "key")
+function OneFieldProfile({field, children}: {field: string, children: JSX.Element}){
     return(
         <div style={{width: "100%", marginTop: "10px"}}>
             <div>
@@ -148,10 +182,8 @@ function ChangeInfo({user, setUser}: {user: UserData | undefined, setUser: React
         {name: "textarea", value: user?.description, onchange: (e: string | number | undefined) => user && setUser({...user, description: String(e)})}
     ]
     return(
-        <PlaceInfo>
-            <>
-                {user && <FillUserData user={user} set_fields={fields}/>}
-            </>
-        </PlaceInfo>
+        <>
+            {user && <FillUserData user={user} set_fields={fields}/>}
+        </>
     )
 }

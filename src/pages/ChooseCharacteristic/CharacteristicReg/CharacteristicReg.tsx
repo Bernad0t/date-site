@@ -7,35 +7,71 @@ import get_answers, { set_answers } from "../../../api/Queries/profile/process_a
 import ButtonRed from "../../../UI/Buttons/ButtonRed/ButtonRed";
 import ToMainMenuBatton from "../../../UI/Buttons/ToMainMenu/ToMainManuButton";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../../UI/Buttons/BackButton/BackButton";
+import { PathMains } from "../../../sqhemas/enums";
+
+interface props_base{
+    path: string
+    answers: CharacteristicsDTO[] | undefined
+    setAnswers: React.Dispatch<React.SetStateAction<CharacteristicsDTO[] | undefined>>
+    submit(setLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void>
+}
 
 export default function CharacteristicReg(){
-    const [loading, setLoading] = useState(false)
-    const [answers, setAnswers] = useState<CharacteristicsDTO[] | undefined>([])
+    const [answers, setAnswers] = useState<CharacteristicsDTO[] | undefined>(undefined)
 
-    const navigate = useNavigate()
     useEffect(() => {
-        get_answers(setLoading)
+        get_answers(null)
         .then((data) => {
             setAnswers(data)
         })
     }, [])
 
-    function submit(){
+    async function submit(setLoading: React.Dispatch<React.SetStateAction<boolean>>){
         answers && 
-        set_answers(answers, setLoading)
-        .then(() => navigate("/"))
+        await set_answers(answers, setLoading)
+        return
     }
 
     return(
+        <CharacteristicsBase path="/" answers={answers} setAnswers={setAnswers} submit={submit}/>
+    )
+}
+
+export function CharacteristicsProfile(){
+    const [answers, setAnswers] = useState<CharacteristicsDTO[] | undefined>(undefined)
+
+    useEffect(() => {
+        get_answers(null)
+        .then((data) => {
+            setAnswers(data)
+        })
+    }, [])
+
+    async function submit(setLoading: React.Dispatch<React.SetStateAction<boolean>>){
+        answers && 
+        await set_answers(answers, setLoading)
+        return
+    }
+
+    return(
+        <CharacteristicsBase path={PathMains.profile} answers={answers} setAnswers={setAnswers} submit={submit}/>
+    )
+}
+
+function CharacteristicsBase({path, answers, setAnswers, submit}: props_base){
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(answers === undefined)
+    return(
         <WrapperPages>
             <div>
-                <ToMainMenuBatton onClick={() => navigate("/")}/>
+                {path === '/' ? <ToMainMenuBatton onClick={() => navigate(path)}/> : <BackButton onClick={() => navigate(path)}/>}
             </div>
             <Characteristics answersUser={answers} setAnswersUser={setAnswers} setLoading={setLoading}/> {/* забыл про importance*/}
             <LoadingComponent loading={loading}>
                 <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "10px"}}>
                     <div style={{width: "150px", height: "30px"}}>
-                        <ButtonRed onClick={submit}>Сохранить</ButtonRed>
+                        <ButtonRed onClick={() => submit(setLoading).then(() => navigate(path))}>Сохранить</ButtonRed>
                     </div>
                 </div>
             </LoadingComponent>

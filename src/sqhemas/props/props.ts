@@ -1,5 +1,5 @@
 import { Gender } from "../enums"
-import no_image from "../../assets/no_image.jpg"
+import { CharacteristicsDTO } from "./characteristics"
 
 export interface CheckCorrectProps{
     node: JSX.Element
@@ -28,6 +28,7 @@ export interface UserCreate extends CommonUser{
 
 export interface UserData extends CommonUser{
     id: number
+    characteristics: CharacteristicsDTO[]
 }
 
 export interface TokensDTO{

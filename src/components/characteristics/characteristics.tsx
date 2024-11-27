@@ -18,10 +18,6 @@ export default function Characteristics({answersUser, setAnswersUser, setLoading
         getCharacteristicsList()
         .then(data => {
             setCharacteristics(data)
-            // if (answersUser === undefined)
-            //     setAnswersUser(data.map(char => {return {...char, answers: []}}))
-            // else
-            //     setAnswersUser(data.map(char => answersUser.find(ans => ans.id === char.id) ? {...char, answers: []}))
         })
         .finally(() => setLoading(false))
     }, [])
