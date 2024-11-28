@@ -17,6 +17,7 @@ router = APIRouter(
 
 @router.get("/is-active")
 async def active_user(token: Annotated[dict, Depends(verify_token)]):
+    print(token["id"])
     result = await find_user_by_id(token["id"])
     if not result:
         return False

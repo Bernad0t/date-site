@@ -14,7 +14,7 @@ class UserBase(BaseModel):
     age: int | None
     description: str | None
     preview: str | None
-    characteristics: list[CharacteristicsListDTO]
+    characteristics: list[CharacteristicsListDTO] | None
 
 class UploadFileUser(UserBase):
     file: UploadFile | None

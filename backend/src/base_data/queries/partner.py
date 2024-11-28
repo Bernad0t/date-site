@@ -16,7 +16,7 @@ async def get_ankets(id: int):
                 .where(LikePartnerOrm.liked_by_id == id)
                 ), UserOrm.id != id
             ))
-            .join(UserOrm.characteristics)
+            .join(UserOrm.characteristics, isouter=True)
             .join(CharacteristicsOrm.answers)
             .options(
                 contains_eager(UserOrm.characteristics).contains_eager(CharacteristicsOrm.answers)
