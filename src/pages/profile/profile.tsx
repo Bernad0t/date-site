@@ -26,6 +26,8 @@ export default function Profile(){
     const [errorMes, setErrorMes] = useState("")
     const navigate = useNavigate()
 
+    console.log(user, "user")
+
     useEffect(() => {
         GetUserData(null)
         .then((data) => {setUser(data); setUserCopy(data)})
@@ -66,18 +68,22 @@ export default function Profile(){
                 <Wrapper style={{display: !refactorState ? "none" : "flex"}}>
                     <LoadingComponent loading={loading}>
                         <>
-                        <ChangePhotoUser user={userCopy} setUser={setUserCopy} file={file} setFile={setFile}/>
-                        <PlaceInfo>
-                            <>
-                            <ChangeInfo user={userCopy} setUser={setUserCopy}/>
-                            <div style={{width: "100%", display: "flex", justifyContent: "center", padding: "10px"}}>
-                                <div style={{width: "100px", height: "30px"}}>
-                                    <ButtonRed onClick={handleApplyChange}>Сохранить</ButtonRed>
+                        <div style={{width: "50%"}}>
+                            <ChangePhotoUser user={userCopy} setUser={setUserCopy} file={file} setFile={setFile}/>
+                        </div>
+                        <div style={{width: "40%"}}>
+                            <PlaceInfo>
+                                <>
+                                <ChangeInfo user={userCopy} setUser={setUserCopy}/>
+                                <div style={{width: "100%", display: "flex", justifyContent: "center", padding: "10px"}}>
+                                    <div style={{width: "100px", height: "30px"}}>
+                                        <ButtonRed onClick={handleApplyChange}>Сохранить</ButtonRed>
+                                    </div>
                                 </div>
-                            </div>
-                            <ErrorMessage message={errorMes}/>
-                            </>
-                        </PlaceInfo>
+                                <ErrorMessage message={errorMes}/>
+                                </>
+                            </PlaceInfo>
+                        </div>
                         <div style={{width: "5%"}}>
                             <BackButton onClick={handleBack}/>
                         </div>
@@ -118,7 +124,7 @@ export function PhotoUser({user}: {user: UserData | undefined}){
 
 function PlaceInfo({children}: {children: JSX.Element}){
     return(
-        <div style={{width: "100%", maxHeight: "90%", overflow: "auto", overflowX: "hidden"}}>
+        <div style={{width: "100%", maxHeight: "100%", overflow: "auto", overflowX: "hidden"}}>
             {children}
         </div>
     )

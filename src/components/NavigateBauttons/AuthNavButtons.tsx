@@ -11,10 +11,10 @@ interface StructButton{
     path: string
 }
 
-function OneBut(struct: StructButton, Click: (id: number,) => void){
+function OneBut(struct: StructButton, Click: (id: number, name: string) => void){
     return(
         <div style={{height: "30px", minWidth: "100px"}}>
-            <ButtonForm key={struct.id} active={struct.active} onClick={() => Click(struct.id)}>{struct.name}</ButtonForm>
+            <ButtonForm key={struct.id} active={struct.active} onClick={() => Click(struct.id, struct.name)}>{struct.name}</ButtonForm>
         </div>
     )
 }
@@ -30,8 +30,8 @@ export default function AuthNavButtons(){
         navigate(path ? path : "")
     }, [structButtons])
 
-    function Click(id: number){
-        setStructButtons(structButtons.map(struct => struct.active ? {...struct, active: false}: struct.id === id ?
+    function Click(id: number, name: string){
+        setStructButtons(structButtons.map(struct => struct.active && name !== struct.name ? {...struct, active: false}: struct.id === id ?
             {...struct, active: true} : struct))
     }
 

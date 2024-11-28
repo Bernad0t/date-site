@@ -27,6 +27,7 @@ function OneField(value: string | number | undefined, key: string, callBack: (ke
 
 export default function AuthForm({submit, nameSubmit}: props){
     const data: UserCreate = useAppSelector(selectCreateUser)
+    console.log(data, "data")
     const keys: string[] = Object.keys(data).slice(0, 3) // [mail log pas]
     const dispatch = useAppDispatch()
     const correctForm = useCheckCorrectForm({data: data, keys: keys, CheckDataCorrect: CheckCorrectForm})

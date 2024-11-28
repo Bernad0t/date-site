@@ -2,7 +2,7 @@ import { useState } from "react";
 // import { CreateEmptyDataForm, CreateEmptyNewUserData } from "../../utils/CreateEmptyObj";
 import AuthForm from "../../components/AuthorizationForm/AuthorizationForm";
 import AuthNavButtons from "../../components/NavigateBauttons/AuthNavButtons";
-import WrapperPages from "../../components/WrapperPages/WrapperPages";
+import WrapperPages, { WrapperPageReg } from "../../components/WrapperPages/WrapperPages";
 
 import css from "./Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
@@ -60,7 +60,7 @@ function AuthorizationComp(){
 export default function AuthorizationPage(){
     const params = useParams()
     return(
-        <WrapperPages>
+        <WrapperPageReg>
             <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <div style={{width: "60%", height: "40vh"}}>
                     <div className={css.nav_buttons}>
@@ -74,6 +74,6 @@ export default function AuthorizationPage(){
                     </div>
                 </div>
             </div>
-        </WrapperPages>
+        </WrapperPageReg>
     )
 }

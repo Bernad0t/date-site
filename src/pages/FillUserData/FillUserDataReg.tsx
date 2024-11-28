@@ -6,7 +6,7 @@ import { selectCreateUser } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { GetPathAuthorization } from "../../utils/GetPath";
 import { DoAuthorization, PathProfileCharacteristics } from "../../sqhemas/enums";
-import WrapperPages from "../../components/WrapperPages/WrapperPages";
+import WrapperPages, { WrapperPageReg } from "../../components/WrapperPages/WrapperPages";
 import BackButton from "../../UI/Buttons/BackButton/BackButton";
 import useCheckCorrectForm from "../../hooks/useCheckCorrectForm/useCheckCorrectForm";
 import CheckCorrectForm from "../../utils/CheckCorrectForm";
@@ -41,7 +41,7 @@ export default function FillUserDataReg(){ // добавить 3 точки, о�
     }
 
     return(
-        <WrapperPages>
+        <WrapperPageReg>
                 <BackButton onClick={() => navigate(GetPathAuthorization(DoAuthorization.do_reg))}/>
                 <LoadingComponent loading={loading}>
                     <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -57,6 +57,6 @@ export default function FillUserDataReg(){ // добавить 3 точки, о�
                         </div>
                     </div>
                 </LoadingComponent>
-        </WrapperPages>
+        </WrapperPageReg>
     )
 }
