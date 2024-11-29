@@ -16,7 +16,7 @@ from backend.src.config import settings
 # Создаем асинхронный движок для подключения к postgres
 async_engine = create_async_engine(
     url=settings.DATABASE_URL_psycopg,
-    echo=True,
+    echo=False,
     pool_size=5,
     max_overflow=10
 )

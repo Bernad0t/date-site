@@ -11,4 +11,3 @@ class CharacteristicsListDTO(BaseModel):
     id: int
     name: str
     type_characteristic: CharacteristicType
-    answers: list[AnswerDTO]

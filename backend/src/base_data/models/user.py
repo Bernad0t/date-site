@@ -26,6 +26,9 @@ class UserOrm(Base):
         back_populates="users",
         secondary="AnswUserChar"
     )
+    answers: Mapped[list["AnswerOrm"]] = relationship(
+        secondary="AnswUserChar"
+    )
 
 class AnswerOrm(Base):
     __tablename__ = "Answer"
