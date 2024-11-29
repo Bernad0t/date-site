@@ -12,21 +12,21 @@ async def get_ankets(id: int):
             select(UserOrm)
             .where(and_(
                 UserOrm.id.notin_(
-                select(LikePartnerOrm.liked_user_id)
-                .where(LikePartnerOrm.liked_by_id == id)
+                    select(LikePartnerOrm.liked_user_id)
+                    .where(LikePartnerOrm.liked_by_id == id)
                 ), UserOrm.id != id
             ))
             .join(UserOrm.characteristics, isouter=True)
-            .join(CharacteristicsOrm.answers)
+            # .join(CharacteristicsOrm.answers)
             .options(
-                contains_eager(UserOrm.characteristics).contains_eager(CharacteristicsOrm.answers)
+                contains_eager(UserOrm.characteristics)
             )
-            .filter(
-                AnswerOrm.id.in_(
-                    select(AnswUserCharOrm.answer_id)
-                    .where(AnswUserCharOrm.user_id == id)
-                )
-            )
+            # .filter(
+            #     AnswerOrm.id.in_(
+            #         select(AnswUserCharOrm.answer_id)
+            #         .where(AnswUserCharOrm.user_id == id)
+            #     )
+            # )
             .limit(10)
         )
         return (await session.execute(query)).unique().scalars().all()

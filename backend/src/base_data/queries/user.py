@@ -21,19 +21,19 @@ async def find_user_by_id(id: int) -> UserOrm:
                 or_(AnswerOrm.id.in_(
                     select(AnswUserCharOrm.answer_id)
                     .where(AnswUserCharOrm.user_id == id)
-                ), CharacteristicsOrm.id == None)
+                ), CharacteristicsOrm.id is None)
             )
         )
         result = (await session.execute(query)).unique().scalars().first()
-        # if result is None:
-        #     query = (
-        #         select(UserOrm)
-        #         .where(UserOrm.id == id)
-        #         .options(
-        #             selectinload(UserOrm.characteristics)
-        #         )
-        #     )
-        #     result = (await session.execute(query)).unique().scalars().first()
+        if result is None:
+            query = (
+                select(UserOrm)
+                .where(UserOrm.id == id)
+                .options(
+                    selectinload(UserOrm.characteristics)
+                )
+            )
+            result = (await session.execute(query)).unique().scalars().first()
         print(result)
         return result
 
