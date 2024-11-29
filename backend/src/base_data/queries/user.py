@@ -13,16 +13,16 @@ async def find_user_by_id(id: int) -> UserOrm:
             select(UserOrm)
             .where(UserOrm.id == id)
             .join(UserOrm.characteristics, isouter=True)
-            .join(UserOrm.answers, isouter=True)
+            .join(CharacteristicsOrm.answers, isouter=False)
             .options(
-                contains_eager(UserOrm.characteristics).contains_eager(UserOrm.answers)
+                contains_eager(UserOrm.characteristics).contains_eager(CharacteristicsOrm.answers)
             )
-            # .filter(
-            #     or_(AnswerOrm.id.in_(
-            #         select(AnswUserCharOrm.answer_id)
-            #         .where(AnswUserCharOrm.user_id == id)
-            #     ), CharacteristicsOrm.id is None)
-            # )
+            .filter(
+                or_(AnswerOrm.id.in_(
+                    select(AnswUserCharOrm.answer_id)
+                    .where(AnswUserCharOrm.user_id == id)
+                ), CharacteristicsOrm.id == None)
+            )
         )
         result = (await session.execute(query)).unique().scalars().first()
         # if result is None:
