@@ -66,26 +66,25 @@ export default function Ankets(){
 
 function OneTypeCharacteristic({answers, characteristics}: {answers: WayAnswerDTO[] | undefined, characteristics: CharacteristicsDTO[] | undefined}){
     return(
-        characteristics && 
         <div className={css.one_type}>
             <div className={css.type_name}>
-                {characteristics[0].type_characteristic}
+                {characteristics && characteristics[0].type_characteristic}
             </div>
             <div className={css.one_char}>
-                {characteristics?.map(char => <OneCharacteristic characteristic={char}/>)}
+                {characteristics?.map(char => <OneCharacteristic characteristic={char} answers={answers}/>)}
             </div>
         </div>
     )
 }
 
-function OneCharacteristic({characteristic}: {characteristic: CharacteristicsDTO}){
+function OneCharacteristic({characteristic, answers}: {characteristic: CharacteristicsDTO, answers: WayAnswerDTO[] | undefined}){
     return(
         <div className={css.char}>
             <div>
                 <b>{characteristic.name}</b>
             </div>
             <div className={css.answers}>
-                {characteristic.answers.map(ans => <OneAnswer answer={ans}/>)}
+                {answers?.map(ans => <OneAnswer answer={ans}/>)}
             </div>
         </div>
     )

@@ -5,8 +5,8 @@ import css from "./caharacteristics.module.css"
 import getCharacteristicsList from "../../api/Queries/profile/get_all_characteristics";
 
 interface props_characteristic{
-    answersUser: CharacteristicsDTO[] | undefined
-    setAnswersUser: React.Dispatch<React.SetStateAction<CharacteristicsDTO[] | undefined>>
+    answersUser: WayAnswerDTO[] | undefined
+    setAnswersUser: React.Dispatch<React.SetStateAction<WayAnswerDTO[] | undefined>>
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -23,8 +23,8 @@ export default function Characteristics({answersUser, setAnswersUser, setLoading
     }, [])
     console.log(answersUser, "answ")
     function CharacteristicIsChoosen(characteristic: CharacteristicsDTO){
-        const answ_list = answersUser?.find(char => char.id === characteristic.id)?.answers
-        return answ_list !== undefined && answ_list.length > 0
+        const answ_list = answersUser?.find(ans => ans.characteristic_id === characteristic.id)
+        return answ_list !== undefined
     }
 
     return(
@@ -34,25 +34,17 @@ export default function Characteristics({answersUser, setAnswersUser, setLoading
     )
 }
 
-function OneCharacteristic(characteristic: CharacteristicsDTO, answersUser: CharacteristicsDTO[] | undefined, setAnswersUser:
-        React.Dispatch<React.SetStateAction<CharacteristicsDTO[] | undefined>>, choosen: boolean){
+function OneCharacteristic(characteristic: CharacteristicsDTO, answersUser: WayAnswerDTO[] | undefined, setAnswersUser:
+        React.Dispatch<React.SetStateAction<WayAnswerDTO[] | undefined>>, choosen: boolean){
     function ChooseBack(changed_answer: WayAnswerDTO | undefined){
-        let new_answ_arr: WayAnswerDTO[] = []
-        const this_answer_arr = answersUser?.find(ans => ans.id === characteristic.id)?.answers
-        if (changed_answer !== undefined){
-            if (this_answer_arr?.find(ans => ans.id === changed_answer.id))
-                new_answ_arr = this_answer_arr.filter(ans => ans.id !== changed_answer.id)
-            else if (this_answer_arr !== undefined)
-                new_answ_arr = [...this_answer_arr, changed_answer]
+        if (answersUser && changed_answer){
+            if (answersUser?.find(ans => ans.id === changed_answer?.id))
+                setAnswersUser(answersUser.filter(answ => answ.id !== changed_answer?.id))
             else
-                new_answ_arr = [changed_answer] 
-            if (answersUser?.find(ans => ans.id === characteristic.id))
-                setAnswersUser(answersUser?.map(
-                    charact => charact.id === characteristic.id ? {...charact, answers: new_answ_arr} : charact
-                ))
-            else if (answersUser !== undefined)
-                setAnswersUser([...answersUser, {...characteristic, answers: new_answ_arr}])
+                setAnswersUser([...answersUser, changed_answer])
         }
+        else if (changed_answer)
+            setAnswersUser([changed_answer])
     }
     
     return(
@@ -61,7 +53,7 @@ function OneCharacteristic(characteristic: CharacteristicsDTO, answersUser: Char
                 {characteristic.name}
             </div>
             <div className={css.contain_answers}>
-                {ChooseAnswer(characteristic.answers, answersUser?.find(ans => ans.id === characteristic.id)?.answers, ChooseBack)}
+                {ChooseAnswer(characteristic.answers, answersUser?.filter(ans => ans.characteristic_id === characteristic.id), ChooseBack)}
             </div>
         </div>
     )

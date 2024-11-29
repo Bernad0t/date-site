@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Characteristics from "../../../components/characteristics/characteristics";
 import WrapperPages from "../../../components/WrapperPages/WrapperPages";
 import LoadingComponent from "../../../components/LoadingComponent";
-import { CharacteristicsDTO } from "../../../sqhemas/props/characteristics";
+import { CharacteristicsDTO, WayAnswerDTO } from "../../../sqhemas/props/characteristics";
 import get_answers, { set_answers } from "../../../api/Queries/profile/process_answers";
 import ButtonRed from "../../../UI/Buttons/ButtonRed/ButtonRed";
 import ToMainMenuBatton from "../../../UI/Buttons/ToMainMenu/ToMainManuButton";
@@ -12,18 +12,18 @@ import { PathMains } from "../../../sqhemas/enums";
 
 interface props_base{
     path: string
-    answers: CharacteristicsDTO[] | undefined
-    setAnswers: React.Dispatch<React.SetStateAction<CharacteristicsDTO[] | undefined>>
+    answers: WayAnswerDTO[] | undefined
+    setAnswers: React.Dispatch<React.SetStateAction<WayAnswerDTO[] | undefined>>
     submit(setLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void>
 }
 
 export default function CharacteristicReg(){
-    const [answers, setAnswers] = useState<CharacteristicsDTO[] | undefined>(undefined)
+    const [answers, setAnswers] = useState<WayAnswerDTO[] | undefined>(undefined)
 
     useEffect(() => {
         get_answers(null)
         .then((data) => {
-            setAnswers(data)
+            setAnswers(data.answers)
         })
     }, [])
 
