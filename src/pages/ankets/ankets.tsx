@@ -5,19 +5,23 @@ import { Info, PhotoUser, Wrapper } from "../profile/profile";
 import { useEffect, useRef, useState } from "react";
 import { UserData } from "../../sqhemas/props/props";
 import { CharacteristicsDTO, WayAnswerDTO } from "../../sqhemas/props/characteristics";
-import GetUserData from "../../api/Queries/User/ProcessUserData";
 
 import css from "./css.module.css"
 import { GetAnkets } from "../../api/Queries/ankets/ankets";
+import LoadingComponent from "../../components/LoadingComponent";
+import LikeButton from "../../UI/Buttons/Score/LikeButton/LikeButton";
+import DisLikeButton from "../../UI/Buttons/Score/DisLikeButton/DisLikeButton";
 
 export default function Ankets(){
     const [user, setUser] = useState<UserData | undefined>()
     const [ankets, setAnkets] = useState<UserData[] | undefined>([])
+    const [loading, setLoading] = useState(false)
     const typesCharacteristics = useRef<CharacteristicType[]>([])
 
     useEffect(() => {
-        GetAnkets(null)
+        GetAnkets(setLoading)
         .then(data => {
+            console.log(data, "data")
             setAnkets(data)
             setUser(data[0])
         })
@@ -34,31 +38,38 @@ export default function Ankets(){
         <WrapperPages>
             <>
             <PanelMain id_page={IdPages.ankets}/>
-            <Wrapper style={{display: "flex"}}>
-             <div style={{width: "50%"}}>
-                <PhotoUser user={user}/>
-            </div>
-            <div style={{width: "40%"}}>
-                <Info user={user}/>
-                <div className={css.characteristics}>
-                    {typesCharacteristics.current.map(type => <OneTypeCharacteristic
-                        characteristics={user?.characteristics.filter(char => char.type_characteristic === type)}
-                        typeName={type}
-                        />
-                    )}
-                </div>
-            </div>
-        </Wrapper>
+            <LoadingComponent loading={loading}>
+                {ankets && ankets.length !== 0 ? <Wrapper style={{display: "flex"}}>
+                    <div style={{width: "50%"}}>
+                        <PhotoUser user={user}/>
+                        <div style={{ margin: "5px", display: "flex", justifyContent: "space-around"}}>
+                            <DisLikeButton/>
+                            <LikeButton/>
+                        </div>
+                    </div>
+                    <div style={{width: "40%"}}>
+                        <Info user={user}/>
+                        <div className={css.characteristics}>
+                            {typesCharacteristics.current.map(type => <OneTypeCharacteristic
+                                characteristics={user?.characteristics.filter(char => char.type_characteristic === type)}
+                                answers={user?.answers}
+                                />
+                            )}
+                        </div>
+                    </div>
+                </Wrapper> : <div><h1><b>Анкет больше нет</b></h1></div>}
+            </LoadingComponent>
             </>
         </WrapperPages>
     )
 }
 
-function OneTypeCharacteristic({typeName, characteristics}: {typeName: CharacteristicType, characteristics: CharacteristicsDTO[] | undefined}){
+function OneTypeCharacteristic({answers, characteristics}: {answers: WayAnswerDTO[] | undefined, characteristics: CharacteristicsDTO[] | undefined}){
     return(
+        characteristics && 
         <div className={css.one_type}>
             <div className={css.type_name}>
-                {typeName}
+                {characteristics[0].type_characteristic}
             </div>
             <div className={css.one_char}>
                 {characteristics?.map(char => <OneCharacteristic characteristic={char}/>)}

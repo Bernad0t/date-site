@@ -1,0 +1,17 @@
+.base{
+    height: 40px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.base img{
+    height: 25px;
+}
+
+.base:hover{
+    opacity: 0.9;
+    cursor: pointer;
+}

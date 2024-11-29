@@ -67,6 +67,9 @@ function CharacteristicsBase({path, answers, setAnswers, submit}: props_base){
             <div>
                 {path === '/' ? <ToMainMenuBatton onClick={() => navigate(path)}/> : <BackButton onClick={() => navigate(path)}/>}
             </div>
+            <div style={{marginLeft: "50px", height: "40px", alignItems: "center", display: "flex"}}>
+                <b>ваша анкета не будет в рекомендациях при пустом списке ответов!</b>
+            </div>
             <Characteristics answersUser={answers} setAnswersUser={setAnswers} setLoading={setLoading}/> {/* забыл про importance*/}
             <LoadingComponent loading={loading}>
                 <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "10px"}}>
