@@ -10,5 +10,4 @@ export interface  CharacteristicsDTO{
     id: number
     name: string
     type_characteristic: CharacteristicType
-    answers: WayAnswerDTO[]
 }

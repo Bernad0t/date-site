@@ -1,5 +1,5 @@
 import { Gender } from "../enums"
-import { CharacteristicsDTO } from "./characteristics"
+import { CharacteristicsDTO, WayAnswerDTO } from "./characteristics"
 
 export interface CheckCorrectProps{
     node: JSX.Element
@@ -29,6 +29,7 @@ export interface UserCreate extends CommonUser{
 export interface UserData extends CommonUser{
     id: number
     characteristics: CharacteristicsDTO[]
+    answers: WayAnswerDTO[]
 }
 
 export interface TokensDTO{
