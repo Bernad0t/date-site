@@ -138,7 +138,7 @@ export function Info({user}: {user: UserData | undefined}){
                 {user && fields.map(field => 
                     <OneFieldProfile field={field}>
                         <div>
-                            {user && {...user, characteristics: "", answers: ""}[field as keyof typeof user]}
+                            {user && {...user, characteristics: ""}[field as keyof typeof user]}
                         </div>
                     </OneFieldProfile>
                 )}

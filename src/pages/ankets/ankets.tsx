@@ -9,7 +9,6 @@ import GetUserData from "../../api/Queries/User/ProcessUserData";
 
 import css from "./css.module.css"
 import { GetAnkets } from "../../api/Queries/ankets/ankets";
-import GetAnswers from "../../utils/GetAnswers";
 
 export default function Ankets(){
     const [user, setUser] = useState<UserData | undefined>()
@@ -24,8 +23,6 @@ export default function Ankets(){
         })
     }, [])
 
-    console.log(ankets, "ank")
-
     useEffect(() => {
         typesCharacteristics.current = []
         user?.characteristics.map(char =>
@@ -38,48 +35,46 @@ export default function Ankets(){
             <>
             <PanelMain id_page={IdPages.ankets}/>
             <Wrapper style={{display: "flex"}}>
-                <div style={{width: "50%"}}>
-                    <PhotoUser user={user}/>
+             <div style={{width: "50%"}}>
+                <PhotoUser user={user}/>
+            </div>
+            <div style={{width: "40%"}}>
+                <Info user={user}/>
+                <div className={css.characteristics}>
+                    {typesCharacteristics.current.map(type => <OneTypeCharacteristic
+                        characteristics={user?.characteristics.filter(char => char.type_characteristic === type)}
+                        typeName={type}
+                        />
+                    )}
                 </div>
-                <div style={{width: "40%"}}>
-                    <Info user={user}/>
-                    <div className={css.characteristics}>
-                        {typesCharacteristics.current.map(type => <OneTypeCharacteristic
-                            characteristics={user?.characteristics.filter(char => char.type_characteristic === type)}
-                            answers={user?.answers}
-                            />
-                        )}
-                    </div>
-                </div>
-            </Wrapper>
+            </div>
+        </Wrapper>
             </>
         </WrapperPages>
     )
 }
 
-function OneTypeCharacteristic({characteristics, answers}: {characteristics: CharacteristicsDTO[] | undefined,  answers: WayAnswerDTO[] | undefined}){
+function OneTypeCharacteristic({typeName, characteristics}: {typeName: CharacteristicType, characteristics: CharacteristicsDTO[] | undefined}){
     return(
         <div className={css.one_type}>
             <div className={css.type_name}>
-                {characteristics ? characteristics[0].type_characteristic : ""}
+                {typeName}
             </div>
             <div className={css.one_char}>
-                {characteristics?.map(char => 
-                    <OneCharacteristic characteristic={char} answers={answers && GetAnswers(answers, characteristics[0].id)}/>
-                )}
+                {characteristics?.map(char => <OneCharacteristic characteristic={char}/>)}
             </div>
         </div>
     )
 }
 
-function OneCharacteristic({characteristic, answers}: {characteristic: CharacteristicsDTO, answers: WayAnswerDTO[] | undefined}){
+function OneCharacteristic({characteristic}: {characteristic: CharacteristicsDTO}){
     return(
         <div className={css.char}>
             <div>
                 <b>{characteristic.name}</b>
             </div>
             <div className={css.answers}>
-                {answers?.map(ans => <OneAnswer answer={ans}/>)}
+                {characteristic.answers.map(ans => <OneAnswer answer={ans}/>)}
             </div>
         </div>
     )

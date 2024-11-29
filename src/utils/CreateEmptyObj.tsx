@@ -20,8 +20,7 @@ export function CreateEmptyUserData(id: number): UserData{
             age: undefined,
             description: undefined,
             preview: undefined,
-            characteristics: [],
-            answers: []
+            characteristics: []
         }
     )
 }
