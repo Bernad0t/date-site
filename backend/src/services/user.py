@@ -15,6 +15,7 @@ async def get_user_data(id: int):
 
 async def set_user_data(user: UserBase, file: UploadFile | None):
     filename = "".join(random.choices(string.ascii_lowercase, k=20))
+    print(user)
     if not file is None:
         while (await check_exist_file(filename + file.content_type)):
             filename = "".join(random.choices(string.ascii_lowercase, k=20))

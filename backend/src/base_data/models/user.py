@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.src.base_data.enums.characteristic import CharacteristicType
 from backend.src.base_data.enums.gender import Gender
 from backend.src.base_data.enums.importance import Importance
+from backend.src.base_data.models.chat import ChatsOrm
 
 
 class UserOrm(Base):
@@ -27,7 +28,14 @@ class UserOrm(Base):
         secondary="AnswUserChar"
     )
     answers: Mapped[list["AnswerOrm"]] = relationship(
-        secondary="AnswUserChar"
+        back_populates="users",
+        secondary="AnswUserChar",
+        viewonly=True
+    )
+
+    chats: Mapped[list["ChatsOrm"]] = relationship(
+        back_populates="users",
+        secondary="UserChats"
     )
 class AnswerOrm(Base):
     __tablename__ = "Answer"
@@ -35,6 +43,12 @@ class AnswerOrm(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     characteristic_id: Mapped[int] = mapped_column(ForeignKey("Characteristics.id", ondelete="CASCADE"))
     answer: Mapped[str]
+
+    users: Mapped["UserOrm"] = relationship(
+        back_populates="answers",
+        secondary="AnswUserChar",
+        viewonly=True
+    )
 
 
 class AnswUserCharOrm(Base):

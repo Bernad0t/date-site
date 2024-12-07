@@ -8,6 +8,7 @@ from alembic import context
 from backend.src.base_data.models.user import *
 from backend.src.base_data.models.token import *
 from backend.src.base_data.models.partner import *
+from backend.src.base_data.models.chat import *
 from backend.src.base_data.engine import Base
 from backend.src.config import settings
 

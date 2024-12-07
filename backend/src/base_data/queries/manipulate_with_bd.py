@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.base_data.engine import async_session_factory
 from backend.src.base_data.enums.characteristic import CharacteristicType
-from backend.src.base_data.models.user import CharacteristicsOrm, AnswerOrm
+from backend.src.base_data.models.user import CharacteristicsOrm, AnswerOrm, UserOrm
 
 
 class inerface_characteristic:
@@ -159,4 +159,12 @@ async def insert_characteristics():
     characteristics: list[inerface_characteristic] = get_characteristics()
     await insert_to_bd(characteristics)
 
-asyncio.run(insert_characteristics())
+async def delete_users():
+    async with async_session_factory() as session:
+        query = (
+            delete(UserOrm)
+        )
+        await session.execute(query)
+        await session.commit()
+
+asyncio.run(delete_users())

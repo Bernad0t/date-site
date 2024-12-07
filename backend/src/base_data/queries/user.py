@@ -13,27 +13,21 @@ async def find_user_by_id(id: int) -> UserOrm:
             select(UserOrm)
             .where(UserOrm.id == id)
             .join(UserOrm.characteristics, isouter=True)
-            .join(CharacteristicsOrm.answers, isouter=False)
+            .join(UserOrm.answers, isouter=True)
             .options(
-                contains_eager(UserOrm.characteristics).contains_eager(CharacteristicsOrm.answers)
-            )
-            .filter(
-                or_(AnswerOrm.id.in_(
-                    select(AnswUserCharOrm.answer_id)
-                    .where(AnswUserCharOrm.user_id == id)
-                ), CharacteristicsOrm.id is None)
+                contains_eager(UserOrm.characteristics).contains_eager(CharacteristicsOrm.answers), contains_eager(UserOrm.answers)
             )
         )
         result = (await session.execute(query)).unique().scalars().first()
-        if result is None:
-            query = (
-                select(UserOrm)
-                .where(UserOrm.id == id)
-                .options(
-                    selectinload(UserOrm.characteristics)
-                )
-            )
-            result = (await session.execute(query)).unique().scalars().first()
+        # if result is None:
+        #     query = (
+        #         select(UserOrm)
+        #         .where(UserOrm.id == id)
+        #         .options(
+        #             selectinload(UserOrm.characteristics)
+        #         )
+        #     )
+        #     result = (await session.execute(query)).unique().scalars().first()
         print(result)
         return result
 
@@ -48,11 +42,15 @@ async def find_user_by_login(login: str) -> UserOrm:
 
 
 async def set_user_data_query(data: UserBase):
+    data_dict = data.dict()
+    data_dict.pop("answers")
+    data_dict.pop("characteristics")
+    print(data_dict)
     async with async_session_factory() as session:
         query = (
             update(UserOrm)
             .where(UserOrm.id == data.id)
-            .values(**data.dict())
+            .values(**data_dict)
         )
         await session.execute(query)
         await session.commit()
