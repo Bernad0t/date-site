@@ -4,19 +4,22 @@ from sqlalchemy.orm import contains_eager, selectinload
 
 from backend.src.base_data.engine import async_session_factory
 from backend.src.base_data.models.user import UserOrm, CharacteristicsOrm, AnswerOrm, AnswUserCharOrm
+from backend.src.base_data.queries.partner import query_getusers
 from backend.src.sqhemas.user import UserBase
 
 
 async def find_user_by_id(id: int) -> UserOrm:
     async with async_session_factory() as session:
         query = (
-            select(UserOrm)
+            query_getusers()
             .where(UserOrm.id == id)
-            .join(UserOrm.characteristics, isouter=True)
-            .join(UserOrm.answers, isouter=True)
-            .options(
-                contains_eager(UserOrm.characteristics).contains_eager(CharacteristicsOrm.answers), contains_eager(UserOrm.answers)
-            )
+            # select(UserOrm)
+            # .where(UserOrm.id == id)
+            # .join(UserOrm.characteristics, isouter=True)
+            # .join(UserOrm.answers, isouter=True)
+            # .options(
+            #     contains_eager(UserOrm.characteristics).contains_eager(CharacteristicsOrm.answers), contains_eager(UserOrm.answers)
+            # )
         )
         result = (await session.execute(query)).unique().scalars().first()
         # if result is None:

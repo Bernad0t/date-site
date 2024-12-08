@@ -6,7 +6,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.src.base_data.enums.characteristic import CharacteristicType
 from backend.src.base_data.enums.gender import Gender
 from backend.src.base_data.enums.importance import Importance
-from backend.src.base_data.models.chat import ChatsOrm
 
 
 class UserOrm(Base):
@@ -32,10 +31,10 @@ class UserOrm(Base):
         secondary="AnswUserChar",
         viewonly=True
     )
-
     chats: Mapped[list["ChatsOrm"]] = relationship(
         back_populates="users",
-        secondary="UserChats"
+        secondary="UserChats",
+        viewonly=True
     )
 class AnswerOrm(Base):
     __tablename__ = "Answer"
@@ -73,3 +72,37 @@ class CharacteristicsOrm(Base): #  we create list charact and all ways answ in a
         secondary="AnswUserChar"
     )
     answers: Mapped[list["AnswerOrm"]] = relationship()
+
+class UserChatsOrm(Base):
+    __tablename__ = "UserChats"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("User.id", ondelete="SET NULL"), nullable=True)
+    chat_id: Mapped[int] = mapped_column(ForeignKey("Chats.id", ondelete="CASCADE"))
+
+class ChatsOrm(Base):
+    __tablename__ = "Chats"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+
+    messages: Mapped[list["MessagesOrm"]] = relationship(
+        back_populates="chat"
+    )
+    users: Mapped[list["UserOrm"]] = relationship(
+        back_populates="chats",
+        secondary="UserChats"
+    )
+
+class MessagesOrm(Base):
+    __tablename__ = "Messages"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    send_by: Mapped[int] = mapped_column(ForeignKey("User.id", ondelete="SET NULL"), nullable=True)
+    send_to: Mapped[int] = mapped_column(ForeignKey("User.id", ondelete="SET NULL"), nullable=True)
+    chat_id: Mapped[int] = mapped_column(ForeignKey("Chats.id", ondelete="CASCADE"))
+    message: Mapped[str]
+
+    chat: Mapped["ChatsOrm"] = relationship(
+        back_populates="messages"
+    )
